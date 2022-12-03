@@ -1,0 +1,50 @@
+table {
+  margin-top: 300px;
+  display: flex;
+  justify-content: center;
+  border-collapse: collapse;
+  margin-bottom: 50px;
+  transform: rotate(270deg);
+}
+
+table td {
+  border: solid black 2px;
+  height: 50px;
+  width: 50px;
+}
+
+#jetonJaune {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: yellow;
+  border: 1px black solid;
+  margin: auto;
+}
+
+#jetonRouge {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: red;
+  border: 1px black solid;
+  margin: auto;
+}
+
+#jetonJauneGagnant {
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+  background: rgb(89, 0, 255);
+  border: 1px black solid;
+  margin: auto;
+}
+
+#jetonRougeGagnant {
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+  background: rgb(132, 0, 255);
+  border: 1px black solid;
+  margin: auto;
+}
