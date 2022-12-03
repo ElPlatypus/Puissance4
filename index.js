@@ -115,37 +115,68 @@ function draw() {
   }
 }
 
+function stop() {
+  let physiqueStop = 0;
+  let nStop = 0;
+  for (let i = 0; i < column.value * row.value; i++) {
+    if (
+      document.querySelector("#colonne" + nStop + physiqueStop).textContent !=
+      ","
+    ) {
+      if (physiqueStop == row.value - 1) {
+        physiqueStop = 0;
+        if (nStop == column.value - 1) {
+          return true;
+        } else {
+          nStop += 1;
+        }
+      } else {
+        physiqueStop += 1;
+      }
+    } else {
+      console.log("non");
+      return false;
+    }
+  }
+}
+
 physique = 0;
 let nombreCoups = nouvelle();
 
 function placer(n) {
-  if (physique > row.value - 1) {
-    document.querySelector("#attention").innerHTML =
-      "Vous ne pouvez plus placer de pion sur cette colonne";
-    physique = 0;
-    draw();
-  }
-
-  while (document.querySelector("#colonne" + n + physique).textContent != " ") {
-    physique += 1;
+  if (stop() == true) {
     if (physique > row.value - 1) {
-      break;
+      document.querySelector("#attention").innerHTML =
+        "Vous ne pouvez plus placer de pion sur cette colonne";
+      physique = 0;
+      draw();
     }
-  }
-  if (nombreCoups % 2 == 0) {
-    document.querySelector("#colonne" + n + physique).innerHTML =
-      "<div id='jetonJaune'>:</div>";
-    document.querySelector("#joue").innerHTML = "<div id='jetonRouge'></div>";
-    win(n, physique);
-    physique = 0;
-    nombreCoups += 1;
+
+    while (
+      document.querySelector("#colonne" + n + physique).textContent != " "
+    ) {
+      physique += 1;
+      if (physique > row.value - 1) {
+        break;
+      }
+    }
+    if (nombreCoups % 2 == 0) {
+      document.querySelector("#colonne" + n + physique).innerHTML =
+        "<div id='jetonJaune'>:</div>";
+      document.querySelector("#joue").innerHTML = "<div id='jetonRouge'></div>";
+      win(n, physique);
+      physique = 0;
+      nombreCoups += 1;
+    } else {
+      document.querySelector("#colonne" + n + physique).innerHTML =
+        "<div id='jetonRouge'>.</div>";
+      document.querySelector("#joue").innerHTML = "<div id='jetonJaune'></div>";
+      win(n, physique);
+      physique = 0;
+      nombreCoups += 1;
+    }
   } else {
-    document.querySelector("#colonne" + n + physique).innerHTML =
-      "<div id='jetonRouge'>.</div>";
-    document.querySelector("#joue").innerHTML = "<div id='jetonJaune'></div>";
-    win(n, physique);
-    physique = 0;
-    nombreCoups += 1;
+    return;
   }
 }
 
@@ -177,23 +208,23 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 1)).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 2)).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 3)).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 1)).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 2)).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + n + (physique - 3)).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -212,23 +243,23 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 2) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 3) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 2) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 3) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -248,23 +279,23 @@ function win(n, physique) {
     if (test == test4 && test == test5 && test == test6) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 2) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 3) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 2) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 3) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -284,23 +315,23 @@ function win(n, physique) {
     if (test == test7 && test == test8 && test == test9) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 2) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 2) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -319,23 +350,23 @@ function win(n, physique) {
     if (test == test10 && test == test11 && test == test12) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 2) + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n + 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 1) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector("#colonne" + (n - 2) + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -355,29 +386,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 3) + (physique - 3)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 3) + (physique - 3)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -396,29 +427,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 3) + (physique + 3)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 3) + (physique + 3)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -443,29 +474,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -490,29 +521,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -532,29 +563,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 3) + (physique - 3)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 3) + (physique - 3)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -573,29 +604,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 3) + (physique + 3)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 3) + (physique + 3)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -620,29 +651,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 2) + (physique + 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
@@ -667,29 +698,29 @@ function win(n, physique) {
     if (test == test1 && test == test2 && test == test3) {
       if (test == ".") {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonRougeGagnant'></div>";
+          "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonRougeGagnant'></div>";
+        ).innerHTML = "<div id='jetonRougeGagnant'>,</div>";
         afficher("rouge");
       } else {
         document.querySelector("#colonne" + n + physique).innerHTML =
-          "<div id='jetonJauneGagnant'></div>";
+          "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 1) + (physique - 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n + 2) + (physique - 2)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         document.querySelector(
           "#colonne" + (n - 1) + (physique + 1)
-        ).innerHTML = "<div id='jetonJauneGagnant'></div>";
+        ).innerHTML = "<div id='jetonJauneGagnant'>,</div>";
         afficher("jaune");
       }
     }
